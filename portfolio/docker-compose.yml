@@ -1,0 +1,93 @@
+version: "3.8"
+
+services:
+  projects: 
+    build: ./project_service
+    ports: 
+      - "3001:3001"
+    volumes:
+      - ./project_service:/project
+      - /project/node_modules
+    networks:
+      - app-network
+
+  
+  category: 
+    build: ./category_service
+    ports: 
+      - "3002:3002"
+    volumes:
+      - ./category_service:/category
+      - /category/node_modules
+    networks: 
+      - app-network
+
+
+  blog: 
+    build: ./blog_service
+    ports: 
+      - "3003:3003"
+    volumes:
+      - ./blog_service:/blog
+      - /blog/node_modules
+    networks: 
+      - app-network
+
+
+  skill: 
+    build: ./skill_service
+    ports: 
+      - "3005:3005"
+    volumes:
+      - ./skill_service:/skill
+      - /skill/node_modules
+    networks: 
+      - app-network
+
+  user: 
+    build: ./user_service
+    ports: 
+      - "3006:3006"
+    volumes:
+      - ./user_service:/user
+      - /user/node_modules
+    networks: 
+      - app-network
+    environment:
+      - GRAPGQL_SERVICE=http://graphql:3004
+
+
+  graphql: 
+    build: ./graphql_service
+    ports: 
+      - "3004:3004"
+    volumes:
+      - ./graphql_service:/graphql
+      - /graphql/node_modules
+    networks: 
+      - app-network
+    environment:
+      - PROJECT_SERVICE=http://projects:3001
+      - CATEGORY_SERVICE=http://category:3002
+      - BLOG_SERVICE=http://blog:3003
+      - SKILL_SERVICE=http://skill:3005
+      - USER_SERVICE=http://user:3006
+
+  database:
+    image: "mongo"
+    container_name: "portfolio_mongo"
+    environment:
+      - MONGO_INITDB_DATABASE=admin
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=lizardpassword
+    volumes:
+      - ./database.js:/docker-entrypoint-initdb.d/database.js:ro
+      - ./mongo-volume:/data/db
+    ports:
+      - "27017:27017"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
