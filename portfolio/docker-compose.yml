@@ -55,6 +55,7 @@ services:
       - app-network
     environment:
       - GRAPGQL_SERVICE=http://graphql:3004
+      - USER_SERVICE=http://user:3006
 
 
   graphql: 

@@ -1,24 +1,37 @@
-const User = require('../../models/user.js');
-const bcrypt = require('bcryptjs');
+const fetch = require('node-fetch');
 
 
-const addUser = (req, res) => {
-    const {fullName, email, password} = req.body;
-    User.findOne({email:email}).then(findOne => {
-        if(findOne) {
-            res.send(res.send('The email is already exist.'))
+
+const addUser = async (req, res) => {
+    const {email, password} = req.body;
+
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    const raw = JSON.stringify({
+    "formFields": [
+        {
+            "id": "email",
+            "value": `${email}`
+        },
+        {
+            "id": "password",
+            "value": `${password}`
         }
-        bcrypt.hash(password, 12).then(hashPssword =>{
-            const saveUser = new User({
-                email:email,
-                password:hashPssword,
-                fullName: fullName,
-            });
-            saveUser.save().then(user => {
-                res.send(user);
-            })
-        })
-    }).catch(err => {res.send(err)})
+    ]
+    });
+
+    const requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: raw,
+        redirect: 'follow'
+    };
+
+    const response = await fetch(`${process.env.USER_SERVICE}/auth/signup`, requestOptions);
+    const user = await response.json();
+    return res.send(user['user']);
+    
 };
 
 

@@ -12,8 +12,10 @@
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
     "express": "^4.18.2",
     "mongoose": "^7.0.5",
+    "node-fetch": "^2.6.9",
     "nodemon": "^2.0.22",
     "supertokens-node": "^13.5.0"
   }

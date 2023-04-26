@@ -9,15 +9,17 @@ const userType = gql`
         joinedDate: String
     }
 
-    type Jwtoken {
-        jwtoken: String
+    type User {
+        email: String
+        id: String
+        timeJoined: String
     }
     
     type Mutation {
         deleteUser(id:String!):Users
-        createUser(fullName:String!, email:String!, password:String!):Users
+        createUser(email:String!, password:String!):User
         editUser(id:String!, fullName:String!, email:String!, password:String!):Users
-        authUser(email:String!, password:String!):Jwtoken
+        authUser(email:String!, password:String!):User
     }
 
 

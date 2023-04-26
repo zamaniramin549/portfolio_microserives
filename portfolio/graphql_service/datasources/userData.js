@@ -15,8 +15,8 @@ class UserAPI extends RESTDataSource {
         return await this.delete('/delete-user',{body: {id}});
     };
 
-    async createUser(fullName, email, password){
-        return await this.post('/add-user',{body: {fullName, email, password}});
+    async createUser(email, password){
+        return await this.post('/add-user',{body: {email, password}});
     };
 
     async editUser(id, fullName, email, password){

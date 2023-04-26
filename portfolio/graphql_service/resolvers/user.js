@@ -15,8 +15,8 @@ const resolvers = {
             return await dataSources.UserAPI.deleteUser(id);
         },
 
-        createUser: async (_, {fullName, email, password}, {dataSources}) => {
-            return await dataSources.UserAPI.createUser(fullName, email, password);
+        createUser: async (_, {email, password}, {dataSources}) => {
+            return await dataSources.UserAPI.createUser(email, password);
         },
 
         editUser: async (_, {id,fullName, email, password}, {dataSources}) => {
