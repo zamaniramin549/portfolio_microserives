@@ -11,15 +11,21 @@ const resolvers = {
 
     Mutation: {
         addSkill: async (_, {name, content, image}, {dataSources}) => {
-            return await dataSources.SkillAPI.addSkill(name, content, image);
+            if (dataSources.SkillAPI.token){
+                return await dataSources.SkillAPI.addSkill(name, content, image);
+            }
         },
 
         deleteSkill: async (_, {id}, {dataSources}) => {
-            return await dataSources.SkillAPI.deleteSkill(id);
+            if (dataSources.SkillAPI.token){
+                return await dataSources.SkillAPI.deleteSkill(id);
+            }
         },
 
         editSkill: async (_, {id, name, content, image}, {dataSources}) => {
-            return await dataSources.SkillAPI.editSkill(id, name, content, image);
+            if (dataSources.SkillAPI.token){
+                return await dataSources.SkillAPI.editSkill(id, name, content, image);
+            }
         },
 
     }

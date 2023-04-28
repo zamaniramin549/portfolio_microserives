@@ -1,5 +1,6 @@
 const express = require('express');
 const route = express.Router();
+const { verifySession } = require('supertokens-node/recipe/session/framework/express');
 
 
 
@@ -15,7 +16,7 @@ route.get('/users', getUsers);
 route.get('/get-single-user/:id', getSingleUser);
 route.post('/add-user', addUser);
 route.delete('/delete-user', deleteUser);
-route.put('/edit-user/:id', editUser);
+route.post('/edit-user', editUser);
 route.post('/auth-user', authUser);
 
 

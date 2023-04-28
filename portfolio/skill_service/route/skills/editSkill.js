@@ -1,6 +1,9 @@
 const Skill = require('../../models/skill');
 
 const editSkill = (req, res) => {
+    if (!req.headers.authorization) {
+        return res.send({success:'user should be logged in'})
+    }
     const id = req.params.id;
     const {name, content, image} = req.body;
     Skill.findById(id).then(skill => {

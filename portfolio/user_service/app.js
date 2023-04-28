@@ -2,10 +2,13 @@ const express = require('express');
 const mongoose = require('mongoose');
 const routers = require('./route/routers');
 
-// Super Token API //
+// Super Token API imports //
 const supertokens = require('supertokens-node');
 const Session = require('supertokens-node/recipe/session');
 const EmailPassword = require('supertokens-node/recipe/emailpassword');
+const EmailVerification = require('supertokens-node/recipe/emailverification');
+const UserRoles = require('supertokens-node/recipe/userroles');
+const jwt = require('supertokens-node/recipe/jwt');
 const cors = require('cors');
 const { middleware } = require('supertokens-node/framework/express');
 // ----------- //
@@ -30,9 +33,13 @@ supertokens.init({
         websiteBasePath: "/auth",
     },
     recipeList: [
-        EmailPassword.init(), // initializes signin / sign up features
-        Session.init(), // initializes session features
-        // jwt.init()
+        EmailPassword.init(),
+        EmailVerification.init({
+            mode: "REQUIRED",
+        }),
+        Session.init(),
+        jwt.init(),
+        // UserRoles.init(),
     ]
 });
 app.use(cors({

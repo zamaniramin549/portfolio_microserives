@@ -16,22 +16,34 @@ const resolvers = {
 
     Mutation:{
         addProject: async (_, {image, title, summary, content, category}, {dataSources}) => {
-            return await dataSources.ProjectAPI.addProject(image, title, summary, content, category);
+            if (dataSources.ProjectAPI.token){
+                return await dataSources.ProjectAPI.addProject(image, title, summary, content, category);
+            }
         },
         addProjectCategory: async (_, {name}, {dataSources}) => {
-            return await dataSources.ProjectAPI.addProjectCategory(name);
+            if (dataSources.ProjectAPI.token){
+                return await dataSources.ProjectAPI.addProjectCategory(name);
+            }
         },
         deleteProjectCategory: async (_, {id}, {dataSources}) => {
-            return await dataSources.ProjectAPI.deleteProjectCategory(id);
+            if (dataSources.ProjectAPI.token){
+                return await dataSources.ProjectAPI.deleteProjectCategory(id);
+            }
         },
         deleteProject: async (_, {id}, {dataSources}) => {
-            return await dataSources.ProjectAPI.deleteProject(id);
+            if (dataSources.ProjectAPI.token){
+                return await dataSources.ProjectAPI.deleteProject(id);
+            }
         },
         editProjectCategory: async (_, {id, name}, {dataSources}) => {
-            return await dataSources.ProjectAPI.editProjectCategory(id, name);
+            if (dataSources.ProjectAPI.token){
+                return await dataSources.ProjectAPI.editProjectCategory(id, name);
+            }
         },
         editProject: async (_, {id, image, title, summary, content, category}, {dataSources}) => {
-            return await dataSources.ProjectAPI.editProject(id, image, title, summary, content, category)
+            if (dataSources.ProjectAPI.token){
+                return await dataSources.ProjectAPI.editProject(id, image, title, summary, content, category);
+            }
         }
     },
 };

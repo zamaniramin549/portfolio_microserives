@@ -1,13 +1,14 @@
-const User = require('../../models/user.js');
+const { deleteUser } = require('supertokens-node');
 
 
-
-const deleteUser = (req, res) => {
+const deleteaUser = async (req, res) => {
+    if (!req.headers.authorization) {
+        return res.send({success:'user should be logged in'})
+    }
     const id = req.body.id
-    User.findByIdAndDelete(id).then(result => {
-        res.send(result);
-    }).catch(err => {res.send(err)});
+    await deleteUser(id);
+    return res.send({success:'User deleted'});
 };
 
 
-module.exports = deleteUser;
+module.exports = deleteaUser;

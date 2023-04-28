@@ -11,15 +11,21 @@ const resolvers = {
 
     Mutation:{
         deleteBlog: async (_, {id}, {dataSources}) => {
-            return await dataSources.BlogAPI.deleteBlog(id);
+            if (dataSources.BlogAPI.token){
+                return await dataSources.BlogAPI.deleteBlog(id);
+            }
         },
 
         addBlog: async (_, {image, summery, content, category, title}, {dataSources}) => {
-            return await dataSources.BlogAPI.addBlog(image, summery, content, category, title);
+            if (dataSources.BlogAPI.token){
+                return await dataSources.BlogAPI.addBlog(image, summery, content, category, title);
+            }
         },
 
         editBlog: async (_, {id, image, summery, content, category, title}, {dataSources}) => {
-            return await dataSources.BlogAPI.editBlog(id, image, summery, content, category, title);
+            if (dataSources.BlogAPI.token){
+                return await dataSources.BlogAPI.editBlog(id, image, summery, content, category, title);
+            }
         }
     },
 

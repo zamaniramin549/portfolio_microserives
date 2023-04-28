@@ -8,16 +8,22 @@ const resolvers = {
 
     Mutation:{
         addCategory: async (_, {name}, {dataSources}) => {
-            const result = await dataSources.CategoryAPI.addCategory(name);
-            return result;
+            if (dataSources.CategoryAPI.token){
+                const result = await dataSources.CategoryAPI.addCategory(name);
+                return result;
+            }
         },
         deleteCategory: async (_, {id}, {dataSources}) => {
-            const result = await dataSources.CategoryAPI.deleteCategory(id);
-            return result;
+            if (dataSources.CategoryAPI.token){
+                const result = await dataSources.CategoryAPI.deleteCategory(id);
+                return result;
+            }
         },
         editCategory: async (_, {id, name}, {dataSources}) => {
-            const result = await dataSources.CategoryAPI.editCategory(id, name);
-            return result;
+            if (dataSources.CategoryAPI.token){
+                const result = await dataSources.CategoryAPI.editCategory(id, name);
+                return result;
+            }
         }
     }
 };

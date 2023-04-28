@@ -1,4 +1,5 @@
 const resolvers = {
+    
     Query: {
         getUsers: async (_, __, {dataSources}) => {
             return await dataSources.UserAPI.getUsers();
@@ -12,15 +13,24 @@ const resolvers = {
 
     Mutation: {
         deleteUser: async (_, {id}, {dataSources}) => {
-            return await dataSources.UserAPI.deleteUser(id);
+            if (dataSources.UserAPI.token){
+                const userId = dataSources.UserAPI.user.id;
+                if (id === userId) {
+                    return await dataSources.UserAPI.deleteUser(userId);
+                } 
+            }
         },
 
         createUser: async (_, {email, password}, {dataSources}) => {
             return await dataSources.UserAPI.createUser(email, password);
         },
 
-        editUser: async (_, {id,fullName, email, password}, {dataSources}) => {
-            return await dataSources.UserAPI.editUser(id, fullName, email, password);
+        editUser: async (_, {id, email, password}, {dataSources}) => {
+            if (dataSources.UserAPI.token){
+                if (dataSources.UserAPI.user.id === id){
+                    return await dataSources.UserAPI.editUser(id, email, password);
+                }
+            }
         },
 
         authUser: async (_, {email, password}, {dataSources}) => {

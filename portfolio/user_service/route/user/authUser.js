@@ -6,6 +6,20 @@ const Session = require('supertokens-node/recipe/session');
 const EmailPassword = require('supertokens-node/recipe/emailpassword');
 
 
+async function createJWT(payload) { //: any
+    if(payload['status'] === 'OK') {
+        const jwtResposne = await jwt.createJWT({
+            ...payload,
+            source: "microservice"
+        });
+        if (jwtResposne.status === "OK") {
+            // Send JWT as Authorization header to M2
+            return jwtResposne.jwt;
+        }
+        throw new Error("Unable to create JWT. Should never come here.")
+    }
+}
+
 
 
 const authUser = async (req, res) => {
@@ -36,7 +50,8 @@ const authUser = async (req, res) => {
 
     const response = await fetch(`${process.env.USER_SERVICE}/auth/signin`, requestOptions);
     const user = await response.json();
-    return res.send(user['user']);
+    const token = await createJWT(user);
+    return res.send({token:token});
 };
 
 

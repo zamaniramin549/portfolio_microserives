@@ -1,21 +1,22 @@
-const User = require('../../models/user.js');
-const bcrypt = require('bcryptjs');
+const EmailPassword = require('supertokens-node/recipe/emailpassword');
 
-const editUser = (req, res) => {
-    const id = req.params.id;
-    const {fullName, email, password} = req.body;
-    User.findById(id).then(user => {
-        bcrypt.hash(password, 12).then(hashPassword => {
-            user.fullName = fullName;
-            user.email = email;
-            user.password = hashPassword;
-            user.save()
-            res.send(user)
-        }).catch(err => {res.send(err)});
-    }).catch(err => {res.send(err)});
+const editUser = async (req, res) => {
+    if (!req.headers.authorization) {
+        return res.send({success:'user should be logged in'})
+    }
+    const {id, email, password} = req.body;
+    const userId = id;
+    const userInfo = await EmailPassword.getUserById(userId);
+    if (userInfo === undefined) {
+        return res.send({success:'user not exist'})
+    }
+
+    await EmailPassword.updateEmailOrPassword({
+        userId,
+        password: password,
+        email: email
+    })
+    return res.send({success:'updated successfully'});
 };
-
-
-
 module.exports = editUser;
 

@@ -14,12 +14,20 @@ const userType = gql`
         id: String
         timeJoined: String
     }
+
+    type Success {
+        success: String
+    }
+
+    type Token {
+        token: String
+    }
     
     type Mutation {
-        deleteUser(id:String!):Users
+        deleteUser(id:String!):Success
         createUser(email:String!, password:String!):User
-        editUser(id:String!, fullName:String!, email:String!, password:String!):Users
-        authUser(email:String!, password:String!):User
+        editUser(id:String!, email:String!, password:String!):Success
+        authUser(email:String!, password:String!):Token
     }
 
 
